@@ -1,3 +1,6 @@
+const CracoLessPlugin = require("craco-less");
+const { loaderByName } = require("@craco/craco");
+
 const path = require('path');
 
 module.exports = {
@@ -5,5 +8,23 @@ module.exports = {
     alias: {
       '@': path.join(__dirname, 'src')
     }
-  }
+  },
+  plugins: [
+    {
+      plugin: CracoLessPlugin,
+      options: {
+        modifyLessModuleRule(lessModuleRule, context) {
+          lessModuleRule.test = /.module.less$/;
+
+          const cssLoader = lessModuleRule.use.find(loaderByName("css-loader"));
+
+          cssLoader.options.modules = {
+            localIdentName: "[local]_[hash:base64:5]",
+          };
+
+          return lessModuleRule
+        }
+      }
+    }
+  ]
 }
