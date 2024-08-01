@@ -13,7 +13,7 @@ module.exports = {
     {
       plugin: CracoLessPlugin,
       options: {
-        modifyLessModuleRule(lessModuleRule, context) {
+        modifyLessModuleRule(lessModuleRule) {
           lessModuleRule.test = /.module.less$/;
 
           const cssLoader = lessModuleRule.use.find(loaderByName("css-loader"));
