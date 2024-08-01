@@ -17,10 +17,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "craco eject",
     "prettier": "prettier src --write",
     "eslint": "eslint src --fix"
   },
@@ -43,6 +43,7 @@
     ]
   },
   "devDependencies": {
+    "@craco/craco": "^7.1.0",
     "@eslint/js": "^9.8.0",
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^9.1.0",
