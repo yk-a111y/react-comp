@@ -1,5 +1,5 @@
 import React from "react";
-import Calendar from "./components/calendar-mini/index";
+import Calendar from "@/components/calendar-mini/index";
 
 function App() {
   return (
