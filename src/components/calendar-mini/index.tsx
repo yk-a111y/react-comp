@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useImperativeHandle, useState } from "react";
 import { monthNames } from "./constant";
 import "./index.less";
 
@@ -7,8 +7,29 @@ interface CalendarProps {
   onChange?: (date: Date) => void;
 }
 
-const Calendar: React.FC<CalendarProps> = () => {
-  const [date, setDate] = useState(new Date());
+export interface CalendarRef {
+  getDate: () => Date;
+  setDate: (date: Date) => void;
+}
+
+const Calendar: React.ForwardRefRenderFunction<CalendarRef, CalendarProps> = (
+  props,
+  ref
+) => {
+  const { defaultValue = new Date(), onChange } = props;
+
+  const [date, setDate] = useState(defaultValue);
+
+  useImperativeHandle(ref, () => {
+    return {
+      getDate() {
+        return date;
+      },
+      setDate(date: Date) {
+        setDate(date);
+      },
+    };
+  });
 
   const handlePreMonth = () => {
     const year = date.getFullYear();
@@ -41,11 +62,30 @@ const Calendar: React.FC<CalendarProps> = () => {
     }
 
     for (let i = 1; i <= daysCount; i++) {
-      days.push(
-        <div key={i} className="day">
-          {i}
-        </div>
-      );
+      const handleDateClick = () => {
+        // 拿到这一年这一月的第i天
+        const curDate = new Date(date.getFullYear(), date.getMonth(), i);
+        setDate(curDate);
+        // onChange是暴露在外面的回调函数，用于通知外部组件日期变更
+        onChange && onChange(curDate);
+      };
+      if (i === date.getDate()) {
+        days.push(
+          <div
+            key={i}
+            className="day selected"
+            onClick={() => handleDateClick()}
+          >
+            {i}
+          </div>
+        );
+      } else {
+        days.push(
+          <div key={i} className="day" onClick={() => handleDateClick()}>
+            {i}
+          </div>
+        );
+      }
     }
 
     return days;
