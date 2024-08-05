@@ -1,8 +1,10 @@
 import React, { useImperativeHandle, useState } from "react";
+import { useControllableValue } from "ahooks";
 import { monthNames } from "./constant";
 import "./index.less";
 
 interface CalendarProps {
+  value?: Date;
   defaultValue?: Date;
   onChange?: (date: Date) => void;
 }
@@ -18,7 +20,12 @@ const Calendar: React.ForwardRefRenderFunction<CalendarRef, CalendarProps> = (
 ) => {
   const { defaultValue = new Date(), onChange } = props;
 
-  const [date, setDate] = useState(defaultValue);
+  // const [date, setDate] = useState(defaultValue);
+
+  // 受控模式
+  const [date, setDate] = useControllableValue<Date>(props, {
+    defaultValue: new Date(),
+  });
 
   useImperativeHandle(ref, () => {
     return {
@@ -66,8 +73,8 @@ const Calendar: React.ForwardRefRenderFunction<CalendarRef, CalendarProps> = (
         // 拿到这一年这一月的第i天
         const curDate = new Date(date.getFullYear(), date.getMonth(), i);
         setDate(curDate);
-        // onChange是暴露在外面的回调函数，用于通知外部组件日期变更
-        onChange && onChange(curDate);
+        // onChange是暴露在外面的回调函数，用于通知外部组件日期变更; 如果是受控模式，这里不需要调用onChange
+        // onChange && onChange(curDate);
       };
       if (i === date.getDate()) {
         days.push(
