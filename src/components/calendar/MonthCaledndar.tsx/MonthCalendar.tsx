@@ -28,7 +28,11 @@ const getAllDays = (date: Dayjs) => {
   return daysInfo;
 };
 
-const renderDays = (days: ReturnType<typeof getAllDays>) => {
+const renderDays = (
+  days: ReturnType<typeof getAllDays>,
+  dateRender: MonthCaledndarProps["dateRender"],
+  dateInnerContent: MonthCaledndarProps["dateInnerContent"]
+) => {
   const rows = [];
   for (let i = 0; i < 6; i++) {
     const row = [];
@@ -42,7 +46,18 @@ const renderDays = (days: ReturnType<typeof getAllDays>) => {
             (item.isCurrentMonth ? "" : " calendar-month-body-cell-not-current")
           }
         >
-          {item.date.date()}
+          {dateRender ? (
+            dateRender(item.date)
+          ) : (
+            <div className="calendar-month-body-cell-date">
+              <div className="calendar-month-body-cell-date-value">
+                {item.date.date()}
+              </div>
+              <div className="calendar-month-body-cell-date-content">
+                {dateInnerContent?.(item.date)}
+              </div>
+            </div>
+          )}
         </div>
       );
     }
@@ -57,7 +72,7 @@ const renderDays = (days: ReturnType<typeof getAllDays>) => {
 };
 
 const MonthCalendar = (props: MonthCaledndarProps) => {
-  const { value } = props;
+  const { value, dateRender, dateInnerContent } = props;
 
   const allDays = getAllDays(value);
 
@@ -72,7 +87,7 @@ const MonthCalendar = (props: MonthCaledndarProps) => {
       </div>
       <div className="calendar-month-body">
         {/* 日期渲染 */}
-        {renderDays(allDays)}
+        {renderDays(allDays, dateRender, dateInnerContent)}
       </div>
     </div>
   );
