@@ -1,8 +1,9 @@
-import { CSSProperties, ReactNode } from "react";
+import { CSSProperties, ReactNode, useState } from "react";
 import cs from "classnames";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs, locale } from "dayjs";
 import MonthCalendar from "./MonthCaledndar.tsx/MonthCalendar";
 import Header from "./Header/Header";
+import LocaleContext from "./LocaleContext";
 
 export interface CalendarProps {
   value: Dayjs;
@@ -15,16 +16,53 @@ export interface CalendarProps {
 }
 
 const Calendar = (props: CalendarProps) => {
-  const { value, style, className } = props;
+  const { value, style, className, locale, onChange } = props;
+
+  const [curDate, setCurDate] = useState<Dayjs>(value);
+  const [curMonth, setCurMonth] = useState<Dayjs>(value);
 
   // 合并类名
   const classNames = cs("calendar", className);
 
+  const handleSeclectDate = (value: Dayjs) => {
+    setCurDate(value);
+    onChange?.(value);
+  };
+  const handlePrevMonth = () => {
+    setCurMonth(curMonth.subtract(1, "month"));
+  };
+  const handleNextMonth = () => {
+    setCurMonth(curMonth.add(1, "month"));
+  };
+  const handleToday = () => {
+    const date = dayjs(Date.now());
+
+    setCurDate(date);
+    setCurMonth(date);
+    onChange?.(date);
+  };
+
   return (
-    <div className={classNames} style={style}>
-      <Header />
-      <MonthCalendar {...props} />
-    </div>
+    <LocaleContext.Provider
+      value={{
+        locale: locale || navigator.language,
+      }}
+    >
+      <div className={classNames} style={style}>
+        <Header
+          curMonth={curMonth}
+          handleToday={handleToday}
+          handlePrevMonth={handlePrevMonth}
+          handleNextMonth={handleNextMonth}
+        />
+        <MonthCalendar
+          {...props}
+          value={curDate}
+          curMonth={curMonth}
+          selectDate={handleSeclectDate}
+        />
+      </div>
+    </LocaleContext.Provider>
   );
 };
 

@@ -32,7 +32,7 @@ function CalendarApp() {
         value={date}
         onChange={handleDateChange}
       /> */}
-      <Calendar value={dayjs("2024-8-5")} />
+      <Calendar value={dayjs("2024-7-13")} locale="en-US" />
     </div>
   );
 }

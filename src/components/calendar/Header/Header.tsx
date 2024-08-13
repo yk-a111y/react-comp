@@ -1,13 +1,31 @@
+import { Dayjs } from "dayjs";
 import "./Header.less";
 
-const Header = () => {
+interface HeaderProps {
+  curMonth: Dayjs;
+  handlePrevMonth: () => void;
+  handleNextMonth: () => void;
+  handleToday: () => void;
+}
+
+const Header = (props: HeaderProps) => {
+  const { curMonth, handlePrevMonth, handleNextMonth, handleToday } = props;
+
   return (
     <div className="calendar-header">
       <div className="calendar-header-left">
-        <div className="calendar-header-icon">&lt;</div>
-        <div className="calendar-header-value">2023 年 11 月</div>
-        <div className="calendar-header-icon">&gt;</div>
-        <button className="calendar-header-btn">今天</button>
+        <div className="calendar-header-icon" onClick={handlePrevMonth}>
+          &lt;
+        </div>
+        <div className="calendar-header-value">
+          {curMonth.format("YYYY 年 MM 月")}
+        </div>
+        <div className="calendar-header-icon" onClick={handleNextMonth}>
+          &gt;
+        </div>
+        <button className="calendar-header-btn" onClick={handleToday}>
+          今天
+        </button>
       </div>
     </div>
   );

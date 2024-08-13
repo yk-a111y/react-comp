@@ -1,9 +1,16 @@
+import { useContext } from "react";
 import { Dayjs } from "dayjs";
+import cs from "classnames";
 import { weekList } from "../constant";
 import { CalendarProps } from "../index";
+import LocaleContext from "../LocaleContext";
+import allLocales from "../locale";
 import "./MonthCalendar.less";
 
-interface MonthCaledndarProps extends CalendarProps {}
+interface MonthCaledndarProps extends CalendarProps {
+  selectDate: (day: Dayjs) => void;
+  curMonth: Dayjs;
+}
 
 const getAllDays = (date: Dayjs) => {
   const daysInMonth = date.daysInMonth();
@@ -31,7 +38,9 @@ const getAllDays = (date: Dayjs) => {
 const renderDays = (
   days: ReturnType<typeof getAllDays>,
   dateRender: MonthCaledndarProps["dateRender"],
-  dateInnerContent: MonthCaledndarProps["dateInnerContent"]
+  dateInnerContent: MonthCaledndarProps["dateInnerContent"],
+  value: Dayjs,
+  selectDate: MonthCaledndarProps["selectDate"]
 ) => {
   const rows = [];
   for (let i = 0; i < 6; i++) {
@@ -49,8 +58,18 @@ const renderDays = (
           {dateRender ? (
             dateRender(item.date)
           ) : (
-            <div className="calendar-month-body-cell-date">
-              <div className="calendar-month-body-cell-date-value">
+            <div
+              className="calendar-month-body-cell-date"
+              onClick={() => selectDate?.(item.date)}
+            >
+              <div
+                className={cs(
+                  "calendar-month-body-cell-date-value",
+                  value.format("YYYY-MM-DD") === item.date.format("YYYY-MM-DD")
+                    ? "calendar-month-body-cell-date-selected"
+                    : ""
+                )}
+              >
                 {item.date.date()}
               </div>
               <div className="calendar-month-body-cell-date-content">
@@ -72,22 +91,25 @@ const renderDays = (
 };
 
 const MonthCalendar = (props: MonthCaledndarProps) => {
-  const { value, dateRender, dateInnerContent } = props;
+  const { value, curMonth, dateRender, dateInnerContent, selectDate } = props;
+  // 国际化
+  const localeContext = useContext(LocaleContext);
+  const CalendarLocale = allLocales[localeContext.locale];
 
-  const allDays = getAllDays(value);
+  const allDays = getAllDays(curMonth);
 
   return (
     <div className="calendar-month">
       <div className="calendar-month-week-list">
         {weekList.map((week) => (
           <div className="calendar-month-week-list-item" key={week}>
-            {week}
+            {CalendarLocale.week[week]}
           </div>
         ))}
       </div>
       <div className="calendar-month-body">
         {/* 日期渲染 */}
-        {renderDays(allDays, dateRender, dateInnerContent)}
+        {renderDays(allDays, dateRender, dateInnerContent, value, selectDate)}
       </div>
     </div>
   );
