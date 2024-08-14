@@ -1,4 +1,3 @@
-import IconComp from "./components/IconComp";
 import createIconFont from "./components/IconComp/createIconFont";
 import { IconAdd } from "./components/IconComp/icons/IconAdd";
 import { IconEmail } from "./components/IconComp/icons/IconEmail";
