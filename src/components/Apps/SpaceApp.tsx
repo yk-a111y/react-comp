@@ -1,5 +1,5 @@
-import Space from "./components/Space";
-import { ConfigProvider } from "./components/Space/ConfigContext";
+import Space from "@/components/Space";
+import { ConfigProvider } from "@/components/Space/ConfigContext";
 
 function SpaceApp() {
   const boxStyle = {

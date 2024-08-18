@@ -1,6 +1,6 @@
-import createIconFont from "./components/IconComp/createIconFont";
-import { IconAdd } from "./components/IconComp/icons/IconAdd";
-import { IconEmail } from "./components/IconComp/icons/IconEmail";
+import createIconFont from "@/components/IconComp/createIconFont";
+import { IconAdd } from "@/components/IconComp/icons/IconAdd";
+import { IconEmail } from "@/components/IconComp/icons/IconEmail";
 
 const Test = createIconFont("//at.alicdn.com/t/c/font_4652658_n1ky1xlln4g.js");
 
