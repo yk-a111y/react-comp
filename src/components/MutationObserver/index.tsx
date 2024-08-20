@@ -25,7 +25,9 @@ const useMutationObserver = (
     }
 
     return () => {
+      // 删除MutationObserver通知队列中的剩余通知
       instance?.takeRecords();
+      // 组织MutationObserver实例继续接收通知
       instance?.disconnect();
     };
   }, [options, nodeOrList]);

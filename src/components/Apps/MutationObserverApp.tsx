@@ -27,6 +27,7 @@ const MutationObserver: React.FC<MutationObserverProps> = (props) => {
 
   if (!children) return null;
 
+  // elementRef作为ref属性传递给children，故访问elementRef即为 <div id="container"></div>
   return cloneElement(children, { ref: elementRef });
 };
 
