@@ -6,9 +6,10 @@ import SpaceApp from "@/components/Apps/SpaceApp";
 import PortalApp from "@/components/Apps/PortalApp";
 import MutationObserverApp from "@/components/Apps/MutationObserverApp";
 import CopyToClipBoardApp from "@/components/Apps/CopyToClipBoardApp";
+import WaterMarkApp from "@/components/Apps/WaterMarkApp";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
-root.render(<CopyToClipBoardApp />);
+root.render(<WaterMarkApp />);
