@@ -5,9 +5,10 @@ import IconCompApp from "@/components/Apps/IconCompApp";
 import SpaceApp from "@/components/Apps/SpaceApp";
 import PortalApp from "@/components/Apps/PortalApp";
 import MutationObserverApp from "@/components/Apps/MutationObserverApp";
+import CopyToClipBoardApp from "@/components/Apps/CopyToClipBoardApp";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
-root.render(<MutationObserverApp />);
+root.render(<CopyToClipBoardApp />);

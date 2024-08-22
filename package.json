@@ -11,6 +11,7 @@
     "@types/react-dom": "^18.3.0",
     "ahooks": "^3.8.0",
     "classnames": "^2.5.1",
+    "copy-to-clipboard": "^3.3.3",
     "craco-less": "^3.0.1",
     "dayjs": "^1.11.12",
     "react": "^18.3.1",
