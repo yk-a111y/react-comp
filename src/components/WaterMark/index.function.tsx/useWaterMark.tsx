@@ -15,6 +15,7 @@ const defaultOptions = {
     fontFamily: "sans-serif",
     fontWeight: "normal",
   },
+  offset: [0, 0],
   getContainer: () => document.body,
 };
 
@@ -35,6 +36,7 @@ const getMergedOptions = (o: Partial<WaterMarkOptions>) => {
       toNumber(options.gap?.[0], defaultOptions.gap[0]),
       toNumber(options.gap?.[1] || options.gap?.[0], defaultOptions.gap[1]),
     ],
+    offset: options.offset || defaultOptions.offset,
     getContainer: options.getContainer!,
   } as Required<WaterMarkOptions>;
 
@@ -66,21 +68,25 @@ const useWaterMark = (params: WaterMarkOptions) => {
   const drawWatermark = () => {
     if (!container) return;
 
+    // Canvas绘制水印
     getCanvasData(mergedOptions).then(({ base64Url, width, height }) => {
+      console.log("🚀 ~ getCanvasData ~ mergedOptions:", mergedOptions);
+      const offsetLeft = mergedOptions.offset[0] + "px";
+      const offsetTop = mergedOptions.offset[1] + "px";
       const wmStyle = `
-      width:100%;
-      height:100%;
-      position:absolute;
-      top:0;
-      left:0;
-      bottom:0;
-      right:0;
-      pointer-events: none;
-      z-index:${zIndex};
-      background-position: 0 0;
-      background-size:${gap[0] + width}px ${gap[1] + height}px;
-      background-repeat: repeat;
-      background-image:url(${base64Url})`;
+        width:calc(100% - ${offsetLeft})
+        height:calc(100% - ${offsetTop});
+        position:absolute;
+        top:${offsetTop};
+        left:${offsetLeft};
+        bottom:0;
+        right:0;
+        pointer-events: none;
+        z-index:${zIndex};
+        background-position: 0 0;
+        background-size:${gap[0] + width}px ${gap[1] + height}px;
+        background-repeat: repeat;
+        background-image:url(${base64Url})`;
 
       if (!waterMarkDiv.current) {
         const div = document.createElement("div");
@@ -94,6 +100,7 @@ const useWaterMark = (params: WaterMarkOptions) => {
   };
 
   useEffect(() => {
+    // options改变时重新绘制水印
     drawWatermark();
   }, [options]);
 
