@@ -60,8 +60,12 @@ const useWaterMark = (params: WaterMarkOptions) => {
   const [options, setOptions] = useState(params || {});
 
   const mergedOptions = getMergedOptions(options);
-  const waterMarkDiv = useRef<HTMLDivElement>();
+  // 包裹水印的容器
   const container = mergedOptions.getContainer();
+  // 水印的DIV
+  const waterMarkDiv = useRef<HTMLDivElement>();
+  // 防止水印被删除，创建MutationObserver
+  const mutationObserver = useRef<MutationObserver>();
 
   const { zIndex, gap } = mergedOptions;
   // 创建水印的DOM
@@ -70,7 +74,6 @@ const useWaterMark = (params: WaterMarkOptions) => {
 
     // Canvas绘制水印
     getCanvasData(mergedOptions).then(({ base64Url, width, height }) => {
-      console.log("🚀 ~ getCanvasData ~ mergedOptions:", mergedOptions);
       const offsetLeft = mergedOptions.offset[0] + "px";
       const offsetTop = mergedOptions.offset[1] + "px";
       const wmStyle = `
@@ -94,8 +97,44 @@ const useWaterMark = (params: WaterMarkOptions) => {
         container.append(div);
         container.style.position = "relative";
       }
-
+      // 为水印DIV添加样式
       waterMarkDiv.current?.setAttribute("style", wmStyle.trim());
+
+      if (container) {
+        mutationObserver.current?.disconnect(); // 断开之前的监听
+
+        mutationObserver.current = new MutationObserver((mutations) => {
+          const isChanged = mutations.some((record) => {
+            let flag = false;
+            // 如果水印被删除，则重新绘制
+            if (record.removedNodes.length) {
+              flag = Array.from(record.removedNodes).some((node) => {
+                return node === waterMarkDiv.current;
+              });
+            }
+            // 如果水印样式被更改，则重新绘制
+            if (
+              record.type === "attributes" &&
+              record.target === waterMarkDiv.current
+            ) {
+              flag = true;
+            }
+
+            return flag;
+          });
+
+          if (isChanged) {
+            waterMarkDiv.current = undefined;
+            drawWatermark();
+          }
+        });
+
+        mutationObserver.current?.observe(container, {
+          attributes: true,
+          subtree: true,
+          childList: true,
+        });
+      }
     });
   };
 
