@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { CalendarRef } from "@/components/calendar-mini/index";
 // import Calendar from "@/components/calendar-mini/index";
 import Calendar from "@/components/calendar/index";
+// const { Calendar } = require("kimi-ui");
 import dayjs from "dayjs";
 
 // const CalendarMini = React.forwardRef(Calendar);
