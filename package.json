@@ -15,6 +15,7 @@
     "craco-less": "^3.0.1",
     "dayjs": "^1.11.12",
     "guang-components": "^0.0.9",
+    "js-cookie": "^3.0.5",
     "kimi-ui": "^0.0.0",
     "lodash-es": "^4.17.21",
     "prop-types": "^15.8.1",

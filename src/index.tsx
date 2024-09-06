@@ -8,9 +8,10 @@ import MutationObserverApp from "@/components/Apps/MutationObserverApp";
 import CopyToClipBoardApp from "@/components/Apps/CopyToClipBoardApp";
 import WaterMarkApp from "@/components/Apps/WaterMarkApp";
 import LazyLoadApp from "@/components/Apps/LazyLoadApp";
+import HooksApp from "@/components/Apps/HooksApp";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
-root.render(<LazyLoadApp />);
+root.render(<HooksApp />);
