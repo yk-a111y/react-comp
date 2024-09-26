@@ -8,6 +8,8 @@ import WhyDidYouUpdate from "@/components/Hooks/useWhyDidYouUpdateHook";
 import CountDown from "@/components/Hooks/useCountDownHook";
 
 const HooksApp = () => {
+  console.log("一次提交");
+
   return <CountDown />;
 };
 
