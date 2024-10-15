@@ -6,11 +6,10 @@ import ScrollingHook from "@/components/Hooks/useScrollingHook";
 import SizeHook from "@/components/Hooks/useSizeHook";
 import WhyDidYouUpdate from "@/components/Hooks/useWhyDidYouUpdateHook";
 import CountDown from "@/components/Hooks/useCountDownHook";
+import Timeout from "@/components/Hooks/useTimeoutHook";
 
 const HooksApp = () => {
-  console.log("一次提交");
-
-  return <CountDown />;
+  return <Timeout />;
 };
 
 export default HooksApp;
