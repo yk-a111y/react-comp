@@ -8,6 +8,7 @@ import MutationObserverApp from "@/components/Apps/MutationObserverApp";
 import CopyToClipBoardApp from "@/components/Apps/CopyToClipBoardApp";
 import WaterMarkApp from "@/components/Apps/WaterMarkApp";
 import LazyLoadApp from "@/components/Apps/LazyLoadApp";
+import MessageApp from "@/components/Apps/MessageApp";
 import HooksApp from "@/components/Apps/HooksApp"; // Hooks相关
 import AnimationApp from "@/components/Apps/AnimationApp"; // 动画相关
 
@@ -15,4 +16,4 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
-root.render(<AnimationApp />);
+root.render(<MessageApp />);
