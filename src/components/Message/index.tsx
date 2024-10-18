@@ -1,4 +1,12 @@
-import { CSSProperties, FC, ReactNode, useEffect, useMemo } from "react";
+import {
+  CSSProperties,
+  FC,
+  forwardRef,
+  ReactNode,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+} from "react";
 import useStore from "./useStore";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import "./index.less";
@@ -17,14 +25,39 @@ export interface MessageProps {
   onClose?: (...args: any) => void;
 }
 
-const Message: FC<{}> = (props) => {
+export interface MessageRef {
+  add: (messageProps: MessageProps) => number;
+  update: (id: number, messageProps: MessageProps) => void;
+  remove: (id: number) => void;
+  clearAll: () => void;
+}
+
+const Message = forwardRef<MessageRef, {}>((props, ref) => {
   const { messageList, add, update, remove, clearAll } = useStore("top");
 
-  useEffect(() => {
-    add({
-      content: Math.random().toString().slice(2, 8),
-    });
-  }, []);
+  // useEffect(() => {
+  //   add({
+  //     content: Math.random().toString().slice(2, 8),
+  //   });
+  // }, []);
+
+  // 把API通过ref形式暴露出去
+  // useImperativeHandle(ref, () => {
+  //   return {
+  //     add,
+  //     update,
+  //     remove,
+  //     clearAll,
+  //   };
+  // }, []);
+  if ("current" in ref!) {
+    ref.current = {
+      add,
+      update,
+      remove,
+      clearAll,
+    };
+  }
 
   const positions = Object.keys(messageList) as Position[];
 
@@ -64,7 +97,7 @@ const Message: FC<{}> = (props) => {
 
   // messageWrapper挂载到el容器下
   return createPortal(messageWrapper, el);
-};
+});
 
 const MessageItem: FC<MessageProps> = (item) => {
   const { onMouseEnter, onMouseLeave } = useTimer({
