@@ -2,6 +2,7 @@ import ConfigProvider from "../Message/ConfigProvider";
 import { useMessage } from "../Message/useMessage";
 
 function Aaa() {
+  // *useMessage中通过useContext拿到MessageRef及其相关方法
   const message = useMessage();
 
   return (
