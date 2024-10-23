@@ -11,9 +11,10 @@ import LazyLoadApp from "@/components/Apps/LazyLoadApp";
 import MessageApp from "@/components/Apps/MessageApp";
 import HooksApp from "@/components/Apps/HooksApp"; // Hooks相关
 import AnimationApp from "@/components/Apps/AnimationApp"; // 动画相关
+import OnBoardingApp from "@/components/Apps/OnBoardingApp"; // 动画相关
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
-root.render(<MessageApp />);
+root.render(<OnBoardingApp />);

@@ -2,6 +2,9 @@ import { useContext } from "react";
 import { ConfigContext } from "./ConfigProvider";
 import { MessageRef } from ".";
 
+/**
+ * * 从Provider中获取Message的ref
+ */
 export function useMessage(): MessageRef {
   const { messageRef } = useContext(ConfigContext);
 

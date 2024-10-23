@@ -14,9 +14,9 @@ function Aaa() {
     queue.enqueue("3");
     console.log(queue);
 
-    for (const value of queue) {
-      console.log(value); // 输出 1, 2, 3
-    }
+    // for (const value of queue) {
+    //   console.log(value); // 输出 1, 2, 3
+    // }
 
     queue.dequeue();
     queue.dequeue();
