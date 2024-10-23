@@ -22,7 +22,8 @@ interface OnBoardingProps {
 
 const OnBoarding: FC<OnBoardingProps> = (props) => {
   const { step = 0, steps, onStepsEnd, getContainer } = props;
-  const [currentStep, setCurrentStep] = useState<number>(0);
+  const [currentStep, setCurrentStep] = useState<number>(0); // 当前的引导步骤
+  const [isMaskMoving, setIsMaskMoving] = useState<boolean>(false); // Mask是否在移动，防止样式未计算结束就渲染Popover
   const [done, setDone] = useState<boolean>(false); // 引导是否结束
 
   // 当前选择的元素
@@ -76,7 +77,9 @@ const OnBoarding: FC<OnBoardingProps> = (props) => {
       </div>
     );
 
-    return (
+    return isMaskMoving ? (
+      wrapper
+    ) : (
       <Popover
         content={
           <div>
@@ -108,6 +111,8 @@ const OnBoarding: FC<OnBoardingProps> = (props) => {
       element={currentSelectedElement}
       container={currentSelectedContainer}
       renderMaskContent={(wrapper) => renderPopover(wrapper)}
+      onAnimationStart={() => setIsMaskMoving(true)}
+      onAnimationEnd={() => setIsMaskMoving(false)}
     ></Mask>
   );
 

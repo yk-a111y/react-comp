@@ -7,14 +7,24 @@ interface MaskProps {
   container?: HTMLElement;
 
   renderMaskContent?: (wrapper: React.ReactNode) => React.ReactNode;
+
+  onAnimationStart?: () => void;
+  onAnimationEnd?: () => void;
 }
 
 export const Mask: React.FC<MaskProps> = (props) => {
-  const { element, renderMaskContent, container } = props;
+  const {
+    element,
+    renderMaskContent,
+    container,
+    onAnimationStart,
+    onAnimationEnd,
+  } = props;
 
   const [style, setStyle] = useState<CSSProperties>({});
 
   useEffect(() => {
+    // 窗口大小发生变化时，重新获取style
     const observer = new ResizeObserver(() => {
       const style = getMaskStyle(
         element,
@@ -25,6 +35,17 @@ export const Mask: React.FC<MaskProps> = (props) => {
 
     observer.observe(container || document.documentElement);
   }, []);
+
+  useEffect(() => {
+    onAnimationStart?.();
+    const timer = setTimeout(() => {
+      onAnimationEnd?.();
+    }, 200);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [element]);
 
   useEffect(() => {
     if (!element) {
