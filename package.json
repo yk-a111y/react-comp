@@ -16,6 +16,7 @@
     "copy-to-clipboard": "^3.3.3",
     "craco-less": "^3.0.1",
     "dayjs": "^1.11.12",
+    "express": "^4.21.2",
     "guang-components": "^0.0.9",
     "js-cookie": "^3.0.5",
     "kimi-ui": "^0.0.0",

@@ -7,7 +7,7 @@ module.exports = {
   webpack: {
     alias: {
       '@': path.join(__dirname, 'src')
-    }
+    },
   },
   plugins: [
     {
@@ -26,5 +26,13 @@ module.exports = {
         }
       }
     }
-  ]
+  ],
+  devServer: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:9002',
+        changeOrigin: true,
+      },
+    },
+  },
 }

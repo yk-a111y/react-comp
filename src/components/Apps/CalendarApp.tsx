@@ -11,6 +11,23 @@ function CalendarApp() {
   const [date, setDate] = useState(new Date());
   const calendarRef = useRef<CalendarRef>(null);
 
+  const fetchData = async () => {
+    try {
+      const response = await fetch('api/test.txt');
+      if (!response.ok) {
+          throw new Error('Network response was not ok');
+      }
+      const data = await response.text(); // 或 response.json()
+      console.log(data); // 处理数据
+    } catch (error) {
+        console.error('Fetch error:', error);
+    }
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   // useEffect(() => {
   // console.log(calendarRef.current?.getDate().toLocaleDateString());
 
